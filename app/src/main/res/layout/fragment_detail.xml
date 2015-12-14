@@ -1,0 +1,127 @@
+<ScrollView
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <TextView  android:id="@+id/title_text"
+        android:text="@string/title"
+        android:layout_width="fill_parent"
+        android:layout_height="77dp"
+        android:background="#26919E"
+        android:layout_gravity="center_horizontal"
+        android:textColor="#ffffff"
+        android:textSize="20sp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="25dp" />
+
+    <LinearLayout
+        android:layout_width = "fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:weightSum="1"
+        android:layout_gravity="center_vertical"
+        android:outlineProvider="none">
+
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="240dp"
+            android:id="@+id/imageView"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/ic_launcher" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+            <TextView
+                android:id="@+id/release_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/release_date" />
+            <TextView
+                android:id="@+id/ratings_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/rating" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/favorite_btn"
+                android:background="@drawable/abc_btn_rating_star_on_mtrl_alpha"
+                android:backgroundTint="@color/accent_material_dark" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+     <TextView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="@string/overview"
+         android:paddingLeft="20dp"
+         android:layout_marginTop="10dp"
+         android:textStyle="bold"
+         android:textSize="@dimen/abc_action_bar_content_inset_material"
+         android:paddingTop="5dp"
+         android:paddingBottom="5dp" />
+     <TextView
+         android:id="@+id/synopsis_text"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="20dp"
+         android:layout_marginRight="20dp"
+         android:text="@string/synopsis"
+         android:paddingBottom="10dp" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingLeft="20dp"
+             android:text="@string/trailers"
+             android:textStyle="bold"
+             android:textSize="@dimen/abc_action_bar_content_inset_material"
+             android:paddingTop="5dp"
+             android:paddingBottom="5dp" />
+         <com.example.app.popularmoviesapp.NestedListView
+             android:id="@+id/listview_trailer"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:paddingLeft="20dp"
+             android:clickable="true"
+             android:smoothScrollbar="false" />
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:paddingLeft="20dp"
+             android:text="@string/reviews"
+             android:textStyle="bold"
+             android:textSize="@dimen/abc_action_bar_content_inset_material"
+             android:paddingTop="5dp"
+             android:paddingBottom="5dp" />
+         <com.example.app.popularmoviesapp.NestedListView
+             android:id="@+id/listview_review"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:clickable="true"
+             android:paddingLeft="20dp"
+             android:smoothScrollbar="false" />
+
+     </LinearLayout>
+
+ </LinearLayout>
+
+</ScrollView>
