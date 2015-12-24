@@ -1,22 +1,35 @@
 package com.example.app.popularmoviesapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MovieActivity extends AppCompatActivity implements MovieFragment.Callback {
 
     private boolean mTwoPane;
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
-    private MovieAppHelper helper = new MovieAppHelper();
+    public MovieAppHelper helper = new MovieAppHelper();
     private String mSortCriteria;
+    private final String LOG_TAG = MovieActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if(!helper.isConnected(this))
+        {
+            Context context = getApplicationContext();
+            CharSequence text = "No internet connection";
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+        Log.v(LOG_TAG, "inside oncreate :savedInstanceState:" + savedInstanceState );
 
         mSortCriteria = helper.getSortCriteria(this);
 
@@ -38,8 +51,6 @@ public class MovieActivity extends AppCompatActivity implements MovieFragment.Ca
 
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_movie, menu);
@@ -55,7 +66,6 @@ public class MovieActivity extends AppCompatActivity implements MovieFragment.Ca
             startActivity(intent);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

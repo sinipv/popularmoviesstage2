@@ -73,7 +73,10 @@ public class DetailFragment extends Fragment {
 
             Picasso.with(getActivity())
                     .load(movie.getMovieUrl())
+                    .placeholder(R.drawable.user_placeholder)
+                    .error(R.drawable.user_placeholder)
                     .into(imageView);
+
 
             trailerAdapter = new TrailerAdapter(getContext(), R.layout.fragment_detail, movie.getTrailers());
 

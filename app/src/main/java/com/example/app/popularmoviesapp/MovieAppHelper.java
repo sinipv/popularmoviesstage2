@@ -2,6 +2,8 @@ package com.example.app.popularmoviesapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -34,12 +36,12 @@ public class MovieAppHelper {
     final String appendToResponse = "reviews,trailers";
     public static AtomicBoolean favoriteUpdated = new AtomicBoolean(false);
 
-    public String getJsonString(Uri builtUri){
+    public String getJsonString(Uri builtUri) {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
         String JsonStr = null;
         URL url = null;
-       // Log.v(LOG_TAG, "Built URI getJsonString " + builtUri.toString());
+        //Log.v(LOG_TAG, "Built URI getJsonString " + builtUri.toString());
 
         try {
             url = new URL(builtUri.toString());
@@ -62,7 +64,7 @@ public class MovieAppHelper {
                 return null;
             }
             JsonStr = buffer.toString();
-        }catch (IOException e) {
+        } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
             JsonStr = null;
         } finally {
@@ -151,7 +153,7 @@ public class MovieAppHelper {
         return movieObj;
     }
 
-    private String getTrailerJsonStr(String id){
+    private String getTrailerJsonStr(String id) {
         String trailerJsonStr = null;
         StringBuilder trailerBase = new StringBuilder("http://api.themoviedb.org/3/movie/");
 
@@ -189,10 +191,10 @@ public class MovieAppHelper {
             String source;
 
             JSONObject trailerItem = trailerArray.getJSONObject(i);
-            name= trailerItem.getString(OWN_NAME);
+            name = trailerItem.getString(OWN_NAME);
             trailerObj.setName(name);
 
-            source= trailerItem.getString(OWN_SOURCE);
+            source = trailerItem.getString(OWN_SOURCE);
             trailerObj.setSource(source);
 
             trailerList.add(trailerObj);
@@ -223,7 +225,7 @@ public class MovieAppHelper {
             String content;
 
             JSONObject reviewItem = reviewArray.getJSONObject(i);
-            author= reviewItem.getString(OWN_AUTHOR);
+            author = reviewItem.getString(OWN_AUTHOR);
             reviewObj.setAuthor(author);
 
             content = reviewItem.getString(OWN_CONTENT);
@@ -279,5 +281,9 @@ public class MovieAppHelper {
         return prefs.getString(context.getString(R.string.pref_sortby_key), context.getString(R.string.pref_sortby_popularity));
     }
 
-
+    public boolean isConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
 }

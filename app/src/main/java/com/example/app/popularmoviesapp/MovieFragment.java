@@ -39,7 +39,8 @@ public class MovieFragment extends Fragment {
     private boolean mTwoPane = false;
     private int mPosition = ListView.INVALID_POSITION;
     private GridView gridView = null;
-    private ArrayList<Movie> movies;
+    ArrayList<Movie> moviesList = new ArrayList<Movie>();
+
 
     private MovieAppHelper helper = new MovieAppHelper();
 
@@ -47,23 +48,26 @@ public class MovieFragment extends Fragment {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
+        Log.v(LOG_TAG, "inside oncreate :savedInstanceState:" + savedInstanceState);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(SAVED_MOVIE_LIST)) {
-            movies = savedInstanceState.getParcelableArrayList(SAVED_MOVIE_LIST);
-            mPosition = savedInstanceState.getInt(SELECTED_MOVIE_POSITION, 0);
+            moviesList = savedInstanceState.getParcelableArrayList(SAVED_MOVIE_LIST);
+            mPosition = savedInstanceState.getInt(SELECTED_MOVIE_POSITION);
             mTwoPane = savedInstanceState.getBoolean(TWO_PANE);
         }
+        super.onCreate(savedInstanceState);
 
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putParcelableArrayList(SAVED_MOVIE_LIST, movies);
+        outState.putParcelableArrayList(SAVED_MOVIE_LIST, moviesList);
         outState.putInt(SELECTED_MOVIE_POSITION, mPosition);
         outState.putBoolean(TWO_PANE, mTwoPane);
         super.onSaveInstanceState(outState);
+
     }
 
 
@@ -72,9 +76,7 @@ public class MovieFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movie, container, false);
 
-        ArrayList<Movie> moviesList = new ArrayList<Movie>();
-         imageAdapter = new ImageAdapter(getContext(), R.layout.fragment_movie, moviesList);
-
+        imageAdapter = new ImageAdapter(getContext(), R.layout.fragment_movie, moviesList);
         gridView = (GridView) rootView.findViewById(R.id.movieGridView);
         imageAdapter.notifyDataSetChanged();
         gridView.setAdapter(imageAdapter);
@@ -83,13 +85,15 @@ public class MovieFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
-                if(mTwoPane){
+                if(mTwoPane) {
                     ((Callback) getActivity()).onItemSelected(imageAdapter.getItem(i));
-                } else{
-                    Movie movie = imageAdapter.getItem(i);
-                    intent.putExtra("movie", movie);
-                    startActivity(intent);
                 }
+                    else{
+                        Movie movie = imageAdapter.getItem(i);
+                        intent.putExtra("movie", movie);
+                        startActivity(intent);
+                    }
+                mPosition = i;
             }
         });
 
@@ -207,11 +211,13 @@ public class MovieFragment extends Fragment {
 
             imageAdapter.notifyDataSetChanged();
 
-
             // Solved by creating boolean mTwoPane
-            if (mTwoPane && movies != null && !movies.isEmpty()) {
+            if (mTwoPane && movies != null && !movies.isEmpty() && mPosition > 0 ){
+                ((Callback) getActivity()).onItemSelected(movies.get(mPosition));
+
+            } else if (mTwoPane && movies != null && !movies.isEmpty()) {
                 mPosition = 0;
-                ((Callback) getActivity()).onItemSelected(movies.get(0));
+                ((Callback) getActivity()).onItemSelected(movies.get(mPosition));
             } else if (mTwoPane) {
                 // Tablet special case, when only 1 favorite being displayed,
                 // is unfavorited, the detail fragment is not cleared
@@ -261,8 +267,6 @@ public class MovieFragment extends Fragment {
             ImageView imageView;
             if (convertView == null) {
                 imageView = new ImageView(context);
-               // imageView.setLayoutParams(new GridView.LayoutParams(GridView.AUTO_FIT,GridView.AUTO_FIT));
-                //imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 imageView.setPadding(0, 0, 0, 0);
 
             } else {
@@ -279,7 +283,7 @@ public class MovieFragment extends Fragment {
     }
 
     public interface Callback {
-        public void onItemSelected(Movie movie);
+         void onItemSelected(Movie movie);
     }
 
     public void setIfTwoPane(boolean mTwoPane) {

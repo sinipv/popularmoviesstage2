@@ -16,12 +16,8 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.v(LOG_TAG, " inside onCreate");
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_detail);
-       /* if(savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_detail_container, new DetailFragment())
-                    .commit();
-        }*/
 
     }
 
@@ -42,7 +38,6 @@ public class DetailActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
             Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
             return true;
