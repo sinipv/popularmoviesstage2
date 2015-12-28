@@ -142,11 +142,12 @@ public class MovieAppHelper {
         movieObj.setId(id);
 
         trailerJsonStr = getTrailerJsonStr(id);
-        trailers = getTrailerDataFromJson(trailerJsonStr);
-        movieObj.setTrailers(trailers);
-
-        reviews = getReviewDataFromJson(trailerJsonStr);
-        movieObj.setReviews(reviews);
+        if(trailerJsonStr != null){
+            trailers = getTrailerDataFromJson(trailerJsonStr);
+            movieObj.setTrailers(trailers);
+            reviews = getReviewDataFromJson(trailerJsonStr);
+            movieObj.setReviews(reviews);
+        }
 
         String imageUrl = getImageUrl(posterPath);
         movieObj.setMovieUrl(imageUrl);

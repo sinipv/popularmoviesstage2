@@ -173,7 +173,8 @@ public class MovieFragment extends Fragment {
                     movieJsonStr = helper.getJsonString(builtUriMovie);
 
                     try {
-                        movies.add(helper.getMovieFromJson(movieJsonStr));
+                        if(movieJsonStr != null)
+                            movies.add(helper.getMovieFromJson(movieJsonStr));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -188,7 +189,8 @@ public class MovieFragment extends Fragment {
                 movieJsonStr = helper.getJsonString(builtUriMovie);
 
                 try {
-                    movies = helper.getMoviesDataFromJson(movieJsonStr);
+                    if(movieJsonStr != null)
+                        movies = helper.getMoviesDataFromJson(movieJsonStr);
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e(LOG_TAG,"Exception in doInBackground()-FetchMovieTask", e);
