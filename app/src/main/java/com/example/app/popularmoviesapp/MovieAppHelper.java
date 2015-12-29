@@ -65,7 +65,6 @@ public class MovieAppHelper {
             }
             JsonStr = buffer.toString();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error ", e);
             JsonStr = null;
         } finally {
             if (urlConnection != null) {
